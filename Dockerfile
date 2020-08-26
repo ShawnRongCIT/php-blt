@@ -45,11 +45,9 @@ RUN set -ex \
   # Remove unwanted packages.
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 
-# Add default user `docker` and modify user id and group id
-RUN groupadd -r -g 1001 docker && useradd --no-log-init -r -u 1000 -g docker docker \
+# Add default user `jenkins` and modify user id and group id
+RUN groupadd -r -g 1001 jenkins && useradd --no-log-init -r -u 1001 -g jenkins jenkins\
   && echo '#!/bin/bash\nset -e\n\
-[[ $(id -u docker) != ${CURRENT_USER_UID:-1000} ]] && usermod -u ${CURRENT_USER_UID:-1000} docker\n\
-[[ $(id -g docker) != ${CURRENT_USER_GID:-1001} ]] && groupmod -g ${CURRENT_USER_GID:-1001} docker\n\
-chown -R docker:docker /var/www/html' > /start.sh && chmod 755 /start.sh && /start.sh
-
-CMD ["php", "-a"]
+[[ $(id -u jenkins) != ${CURRENT_USER_UID:-1001} ]] && usermod -u ${CURRENT_USER_UID:-1001} jenkins\n\
+[[ $(id -g jenkins) != ${CURRENT_USER_GID:-1001} ]] && groupmod -g ${CURRENT_USER_GID:-1001} jenkins\'
+> /start.sh && chmod 755 /start.sh && /start.sh
