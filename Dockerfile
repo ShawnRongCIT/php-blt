@@ -49,5 +49,5 @@ RUN set -ex \
 RUN groupadd -r -g 1001 jenkins && useradd --no-log-init -r -u 1001 -g jenkins jenkins\
   && echo '#!/bin/bash\nset -e\n\
 [[ $(id -u jenkins) != ${CURRENT_USER_UID:-1001} ]] && usermod -u ${CURRENT_USER_UID:-1001} jenkins\n\
-[[ $(id -g jenkins) != ${CURRENT_USER_GID:-1001} ]] && groupmod -g ${CURRENT_USER_GID:-1001} jenkins\'
-> /start.sh && chmod 755 /start.sh && /start.sh
+[[ $(id -g jenkins) != ${CURRENT_USER_GID:-1001} ]] && groupmod -g ${CURRENT_USER_GID:-1001} jenkins\n\
+chown -R jenkins:jenkins /var/www/html' > /start.sh && chmod 755 /start.sh && /start.sh
