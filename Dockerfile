@@ -45,6 +45,8 @@ RUN set -ex \
   # Remove unwanted packages.
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 
+RUN npm i -g gulp
+
 # Add default user `jenkins` and modify user id and group id
 RUN groupadd -r -g 1001 jenkins && useradd --no-log-init -r -u 1001 -g jenkins jenkins\
   && echo '#!/bin/bash\nset -e\n\
